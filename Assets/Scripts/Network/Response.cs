@@ -32,17 +32,6 @@ public class ItemInstanceInfo
     public int CurrentSetCount;
 }
 
-// ───────── 턴 게이지 상태 (STUB: 배틀) ─────────
-
-/// <summary>서버에서 수신한 유닛 한 명의 행동 게이지 현재값.</summary>
-[Serializable]
-public class UnitTurnInfo
-{
-    public string UnitId;
-    /// <summary>현재 행동 게이지 (0 ~ 100). 높을수록 다음 턴이 가깝습니다.</summary>
-    public float ActionGauge;
-}
-
 public enum ESkillEffectType
 {
     Damage,

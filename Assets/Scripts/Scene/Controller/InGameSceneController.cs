@@ -85,8 +85,7 @@ public class InGameSceneController : SceneController
     private void OnNextTurn(BattleNextTurnResponsePacket res)
     {
         if (res.Code != ENetworkStatusCode.Success) return;
-        // ⚠️ 계약은 라운드 기반(NextUnitId/RoundNumber) — 구 ATB 게이지(UnitTurnInfo) 미운반 →
-        //    UnitManager.SyncTurnOrder(게이지 동기화) 생략. 턴 루프는 NextUnitId로 진행(BattleController).
+        // 라운드 기반(NextUnitId/RoundNumber) — 턴 루프는 서버 NextUnitId로 진행(BattleController).
         _stageDirector.NotifyNextActor(res.NextUnitId);
     }
 
