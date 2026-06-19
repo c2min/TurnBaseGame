@@ -48,14 +48,17 @@ Assets/Scripts/
 
 ## §4 미구현 seam (마이그레이션·콘텐츠 후)
 
-- **⚠️ 와이어 마이그레이션(컴파일 브레이커, 최우선):** `Network/Request.cs`·`Response.cs`의 로컬 패킷(`RequestLogin:RequestPacket` 등, base=소거된 `SMDevLibrary.Network.Shared.*`) → `SM.Contracts.TurnRPG` 계약 타입 소비로 전환 + SDK 전송 배선(`NetworkClient`/`PacketDispatcher`/`ClientPacketRegistry` 등록). 로컬 DTO(`CharacterInfo`/`SkillEffectResult`/`UserInfo` 등)와 계약 DTO 정합·치환.
-- **핸들러 등록·디스패치 배선:** SDK 전송 위 게임 패킷 핸들러 등록부 신설.
-- **콘텐츠 데이터(@plan/turnrpg-server 정합):** 캐릭터 로스터·스킬·스테이지·보상 표시 데이터.
-- **서버 권위 정합:** 낙관적 클라 표현 ↔ 서버 응답 정정 정책.
+- ✅ **와이어 마이그레이션 — 로비/로그인(`159e1f1`)·배틀 액션(`f5698bd`) 착지**(`dotnet build 0err`, Unity·런타임 미검증). 전송은 SDK 기배선(`UnityNetworkBridge`/`ClientPacketRegistry`)·패킷 자동등록(전 어셈블리 `[PacketType]` 스캔).
+- **⚠️ 배틀-init 그리드모델 리워크(후속):** `BattleSnapshotPacket{Grid+Units+CurrentUnitId}` → `StageDirector`/스폰/`UnitManager` 재작성. `BattleUnitDto`=UnitId만(비주얼 id 부재)→비주얼 해소 막힘. 현재 `OnBattleSnapshot`=BattleId 캡처만.
+- **⚠️ 디자인 발산 정합(turnrpg-server·plan·bridge):** SP·ATB·웨이브·멀티타겟 = 정식 설계(→계약 확장) vs 과설계(→클라 정리). 현 강등 잠정(ADR-004).
+- **미커버/미배선:** 인벤/장비/판매·멀티프리셋(계약 미존재=STUB) · EnemyAction/BattleResult/Reward(계약 존재·핸들러 미배선) · id 규약(string↔long/int).
+- **콘텐츠 데이터·서버권위 정합:** 캐릭터/스킬/스테이지 표시 데이터(@plan) · 낙관적 표현↔서버 정정 정책.
 
 ## §5 변경이력 (append-only · *무엇*/기계적 변경 추적)
 
-- 2026-06-20 — 세션 부트(turnrpg-client 첫 가동). foundation/구코드 실측 + charter(`CLAUDE.md`)·설계 SoT(`ARCHITECTURE.md`)·status 신설. 코드 변경 0(마이그레이션 미착수).
+- 2026-06-20 `093b3cb` — 세션 부트(turnrpg-client 첫 가동). foundation/구코드 실측 + charter·설계 SoT·status 신설. 코드 변경 0.
+- 2026-06-20 `159e1f1` — 와이어 마이그레이션 1차(로비/로그인). Login/CharacterList/PartyValidate/StageEnter → 계약 타입. 클라측 적응(ID중심 CharacterInfo→AllyInfo·단일 DefaultParty·guestId=Token). `dotnet build 0err`.
+- 2026-06-20 `f5698bd` — 와이어 마이그레이션 2차(배틀 액션). SkillUse/TurnEnd 송신·SkillResult/NextTurn 응답·BattleId 캡처 → 계약. 발산기능(SP·ATB·웨이브·멀티타겟) 클라 로컬 강등. ADR-004. `dotnet build 0err`.
 
 ---
 
@@ -69,6 +72,7 @@ Assets/Scripts/
 | ADR-001 | 2026-06-20 | **foundation = 바이너리 DLL 소비(`Assets/Plugins/`).** `SMDevLibrary.dll`(engine-sdk)·`SM.Contracts.Core`+`SM.Contracts.TurnRPG`(bridge)를 소스 아닌 .dll로 드롭. `CombatLibrary.dll`(arpg 전투엔진)=장르불일치 제거(사용자 정리). | 기각=소스/asmdef 참조. 트레이드오프=빌드 단순·소유 경계 명확(클라는 엔진/계약 내부 무지) ↔ 디버깅 시 소스 부재. 엔진/계약 변경=재배포(허브 REQUEST). | `(grep Plugins: SMDevLibrary/SM.Contracts.* dll·meta · CombatLibrary D)` |
 | ADR-002 | 2026-06-20 | **와이어 = 로컬 핸드롤 패킷 폐기 → `SM.Contracts.TurnRPG` 계약 소비.** 구코드 `Network/Request.cs`·`Response.cs`의 로컬 패킷(base=소거된 `SMDevLibrary.Network.Shared.*`)을 계약 타입으로 대체, 전송=SDK 레이어. | 기각=⒜로컬 base 재정의 유지(드리프트·계약 분열) ⒝구 SMDevLibrary 핀. 트레이드오프=서버와 단일 와이어 SoT·B12 안정 id ↔ 111 .cs 마이그레이션 비용·PROVISIONAL 필드 형상 위험. **착수=free-reshape 창 닫힘**(필드 참조 후 형상변경=조정 재배포). | `[방향·미착수]` `(grep Network.Shared 소거·TurnRPG 패킷15)` |
 | ADR-003 | 2026-06-20 | **DLL VCS 정책 = .dll+.dll.meta 직접 트래킹.** 이 repo 기존 관행(DOTween·Newtonsoft·SMDevLibrary 전부 .dll+.meta 커밋) 따름 — arpg의 `*.dll` gitignore 패턴 **미채용**. | 기각=arpg 동형(.dll gitignore + .meta만 커밋). 사유=repo가 이미 DLL 직접 트래킹(일관성)·Unity .meta GUID 안정. 트레이드오프=repo 용량↑ ↔ 배포/클론 단순. | `(grep git ls-files: *.dll tracked · .gitignore dll 0건)` |
+| ADR-004 | 2026-06-20 | **배틀 모델 발산 = 계약/서버 모델로 수렴, 구 클라 발산기능은 클라 로컬 강등(잠정).** 구 클라(ATB 행동게이지·스킬포인트·웨이브·멀티타겟/AoE) ↔ 계약·turnrpg-server(라운드기반 NextUnitId/RoundNumber·그리드+유닛 스냅샷·단일타겟·SP 없음). charter 원칙(클라뷰=서버권위 상태의 표현) 적용 → SP=클라 로컬 낙관·ATB SyncTurnOrder 생략(턴루프=서버 NextUnitId)·멀티타겟→첫타겟·SkillId/StageId string→int 파싱. | 기각=⒜구 클라 모델 유지(서버 미지원 기능=와이어 부재로 동작 불가) ⒝계약 확장 즉시 REQUEST(설계 미확정 상태 선행 변경). 트레이드오프=서버 권위 정합·즉시 컴파일/진행 ↔ 발산기능 강등(기능 손실 표면). **잠정** — turnrpg 정식 설계(SP/ATB/웨이브/AoE 유무)=turnrpg-server·plan SoT, 확정 시 계약 확장 REQUEST 또는 클라 정리로 재결정. **배틀-init(스냅샷 그리드모델)은 미배선**: `BattleUnitDto`가 UnitId만 운반(템플릿/비주얼 id 부재)→비주얼 해소 불가, 그리드 init 리워크 보류. | `[시점포착]` `(grep BattleSkillUseRequest·InGameSceneController·UISkillBar · BattleSnapshotPacket{Grid,Units})` |
 
 **규율③ 포인터(타 세션 소유 결정 — *왜*는 해당 SoT, 여기선 참조만):**
 - 와이어/계약(TurnRPG 스코프·패킷 id·필드 형상·`LobbyLogin` rename) = **bridge** SoT. `(=bridge 확인)`
