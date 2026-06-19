@@ -1,34 +1,18 @@
-using UnityEngine;
-
 public class SkillSlotRuntime : ISkill
 {
     public SkillData Data { get; }
-    public UltimateGauge UltimateGauge { get; }
 
-    private readonly float _chargeEfficiency;
-    private bool IsUltimate => Data.SkillType == ESkillType.Ultimate;
+    // ⚠️ 궁극기 에너지 게이지·SP(HSR 잔재) 제거(2026-06-20 ADR-005).
+    //    스킬 사용 게이팅 없음 — 사용 검증은 서버 권위(라운드 단위). 클라는 표시·송신만.
+    public bool IsReady => true;
 
-    // ⚠️ 스킬포인트(SP) 게이팅 제거(HSR 잔재, 2026-06-20 ADR-005). 궁극기만 게이지 게이팅, 그 외 항상 사용 가능.
-    public bool IsReady => IsUltimate
-        ? (UltimateGauge?.IsFull ?? false)
-        : true;
-
-    public SkillSlotRuntime(SkillData data, UltimateGauge ultimateGauge = null, float chargeEfficiency = 1f)
+    public SkillSlotRuntime(SkillData data)
     {
         Data = data;
-        UltimateGauge = ultimateGauge;
-        _chargeEfficiency = chargeEfficiency;
     }
 
     public void Use()
     {
-        if (Data.GaugeCharge > 0)
-        {
-            int charge = Mathf.RoundToInt(Data.GaugeCharge * _chargeEfficiency);
-            UltimateGauge?.Charge(charge);
-        }
-
-        if (IsUltimate)
-            UltimateGauge?.Use();
+        // 자원 게이지 없음 — 스킬 효과 적용은 서버 권위(OnSkillResult). 클라 Use=no-op.
     }
 }

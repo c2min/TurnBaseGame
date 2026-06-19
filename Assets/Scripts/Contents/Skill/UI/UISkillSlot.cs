@@ -21,7 +21,6 @@ public class UISkillSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     private Action<SkillSlotRuntime> _onClick;
     private Action<SkillSlotRuntime> _onLongPressStart;
     private Action _onLongPressEnd;
-    private UltimateGauge _boundGauge;
 
     private Coroutine _longPressCoroutine;
     private bool _longPressTriggered;
@@ -29,8 +28,6 @@ public class UISkillSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public void Bind(SkillSlotRuntime skill, Action<SkillSlotRuntime> onClick,
                      Action<SkillSlotRuntime> onLongPressStart = null, Action onLongPressEnd = null)
     {
-        UnbindGauge();
-
         _skill = skill;
         _onClick = onClick;
         _onLongPressStart = onLongPressStart;
@@ -48,13 +45,6 @@ public class UISkillSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             _icon.sprite = skill.Data.Icon;
             _icon.enabled = skill.Data.Icon != null;
             _skillNameText.text = skill.Data.SkillName;
-        }
-
-        // 궁극기는 게이지가 찼을 때 자동으로 버튼 활성화되도록 구독
-        if (skill?.Data.SkillType == ESkillType.Ultimate && skill.UltimateGauge != null)
-        {
-            _boundGauge = skill.UltimateGauge;
-            _boundGauge.OnGaugeChanged += Refresh;
         }
 
         SetSelected(false);
@@ -121,18 +111,8 @@ public class UISkillSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         _longPressTriggered = false;
     }
 
-    private void UnbindGauge()
-    {
-        if (_boundGauge == null)
-            return;
-
-        _boundGauge.OnGaugeChanged -= Refresh;
-        _boundGauge = null;
-    }
-
     private void OnDestroy()
     {
         CancelLongPress();
-        UnbindGauge();
     }
 }

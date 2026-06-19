@@ -8,7 +8,6 @@ public class SkillData : ScriptableObject
     [TextArea(2, 4)] public string Description;
     public Sprite Icon;
     public ESkillType SkillType;
-    [Min(0)] public int GaugeCharge;
     public ESkillRangeType RangeType;
     public EUnitTeam TargetTeam;
 
