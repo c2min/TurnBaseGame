@@ -18,13 +18,8 @@ public class UISkillBar : MonoBehaviour
     [SerializeField]
     private UISkillInfoPanel _skillInfoPanel;
 
-    [SerializeField]
-    private UISkillPointDots _spDots;
-
     private SkillSlotRuntime _pendingSkill;
     private UnitController _currentActor;
-    private int _currentSkillPoint;
-    private int _maxSkillPoint;
 
     private void Awake()
     {
@@ -68,14 +63,6 @@ public class UISkillBar : MonoBehaviour
         SetVisible(true);
     }
 
-    public void UpdateSkillPoints(int sp, int maxSp)
-    {
-        _currentSkillPoint = sp;
-        _maxSkillPoint = maxSp;
-        _spDots?.Refresh(sp, maxSp);
-        RefreshAllSlots();
-    }
-
     private void Bind(IReadOnlyList<SkillSlotRuntime> skills)
     {
         for (int i = 0; i < _slots.Length; i++)
@@ -89,10 +76,7 @@ public class UISkillBar : MonoBehaviour
     private void RefreshAllSlots()
     {
         foreach (var slot in _slots)
-        {
-            slot.BoundSkill?.UpdateAvailableSkillPoints(_currentSkillPoint);
             slot.Refresh();
-        }
     }
 
     private void OnSkillLongPressStart(SkillSlotRuntime skill)
@@ -136,9 +120,6 @@ public class UISkillBar : MonoBehaviour
         var targets = _battleController.GetConfirmedTargetIds();
 
         skill.Use();
-
-        // ⚠️ SP는 계약 미커버(스킬포인트 와이어 없음) → 순수 클라 로컬 낙관적 표현(서버 비동기). 디자인 정합 시 재검토.
-        _currentSkillPoint = System.Math.Max(0, _currentSkillPoint - skill.Data.SkillPointCost);
         RefreshAllSlots();
 
         ClearPending();

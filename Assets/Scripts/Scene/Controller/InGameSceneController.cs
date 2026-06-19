@@ -56,7 +56,6 @@ public class InGameSceneController : SceneController
     {
         if (res.Code != ENetworkStatusCode.Success) return;
 
-        // ⚠️ 계약 미커버: SkillPoint(SP)는 와이어 없음 → 서버 보정 불가(클라 로컬 낙관값 유지).
         foreach (var effect in res.Effects)
         {
             var unit = UnitManager.Instance.GetUnit(effect.TargetUnitId);
