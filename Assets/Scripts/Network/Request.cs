@@ -46,27 +46,10 @@ public class RequestUnequipItem : RequestPacket
     public EItemCategory Slot;
 }
 
-// ───────── 배틀 (STUB: 배틀 슬라이스 미마이그레이션) ─────────
+// ───────── 배틀 (STUB: 미마이그레이션 — 결과보고 와이어 미배선) ─────────
+// SkillUse/TurnEnd = 계약(BattleSkillUse/BattleTurnEndRequestPacket)으로 마이그레이션 완료 → 여기서 제거됨.
 
-/// <summary>
-/// 플레이어가 스킬을 사용했음을 서버에 전달.
-/// TargetUnitIds: 단일 타겟은 1개, 범위 스킬은 여러 개, 자기 자신 대상이면 비어도 됨.
-/// </summary>
-public class RequestSkillUse : RequestPacket
-{
-    public string CasterUnitId;
-    public string SkillId;
-    public List<string> TargetUnitIds;
-    public ESkillType SkillType;
-}
-
-/// <summary>현재 유닛의 턴 종료 선언 — 서버는 다음 행동 유닛을 ResponseNextTurn으로 반환</summary>
-public class RequestTurnEnd : RequestPacket
-{
-    public string UnitId;
-}
-
-/// <summary>스테이지 전투 결과 보고 — 서버는 검증 후 ResponseBattleReward 반환</summary>
+/// <summary>스테이지 전투 결과 보고 — 서버는 검증 후 BattleReward 반환. (STUB: 핸들러 미배선)</summary>
 public class RequestBattleResult : RequestPacket
 {
     public string StageId;

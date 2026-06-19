@@ -15,6 +15,9 @@ public class Client : MonoSingleton<Client>
 
     public UserInfo UserInfo { get; private set; }
 
+    /// <summary>현재 진행 중 전투의 서버 식별자(계약 BattleId). StageEnter/Snapshot 응답에서 설정.</summary>
+    public long ActiveBattleId { get; set; }
+
     protected override void Awake()
     {
         SceneMgr = GetComponentInChildren<SceneManager>();

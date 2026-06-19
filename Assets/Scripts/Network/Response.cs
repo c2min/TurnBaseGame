@@ -102,45 +102,11 @@ public class ResponseUnequipItem : ResponsePacket
     public string InstanceId;
 }
 
-// ───────── 스테이지 (STUB: 배틀 슬라이스) ─────────
+// ───────── 배틀 (STUB: 미마이그레이션 — 핸들러 미배선) ─────────
+// StageInfo/SkillResult/NextTurn = 계약(BattleSnapshot/BattleSkillUseResponse/BattleNextTurnResponse)
+// 으로 마이그레이션 완료 → 여기서 제거됨. 아래 EnemyAction/BattleReward는 핸들러 미배선 STUB.
 
-[Serializable]
-public class ResponseStageInfo : ResponsePacket
-{
-    public StageInfo StageInfo;
-    /// <summary>서버가 결정한 첫 번째 행동 유닛 ID</summary>
-    public string FirstActorId;
-    /// <summary>스테이지 진입 직후 모든 생존 유닛의 행동 게이지 상태</summary>
-    public List<UnitTurnInfo> TurnInfos;
-    public int SkillPoint;
-    public int MaxSkillPoint;
-}
-
-// ───────── 배틀 (STUB: 배틀 슬라이스) ─────────
-
-/// <summary>스킬 사용 결과 — 적용된 모든 효과와 사망한 유닛 목록</summary>
-[Serializable]
-public class ResponseSkillResult : ResponsePacket
-{
-    public string CasterUnitId;
-    public string SkillId;
-    public List<SkillEffectResult> Effects;
-    public List<string> DeadUnitIds;
-    public int SkillPoint;
-    public int MaxSkillPoint;
-}
-
-/// <summary>다음 행동 유닛 통보 — 해당 유닛의 UI를 활성화</summary>
-[Serializable]
-public class ResponseNextTurn : ResponsePacket
-{
-    public string NextUnitId;
-    public bool IsEnemyTurn;
-    /// <summary>턴 종료 후 모든 생존 유닛의 행동 게이지 상태. 턴 순서 시뮬레이션에 사용.</summary>
-    public List<UnitTurnInfo> TurnInfos;
-}
-
-/// <summary>적의 행동 결과 (서버 푸시 — 클라이언트 요청 없이 서버가 전송)</summary>
+/// <summary>적의 행동 결과 (서버 푸시). (STUB: 핸들러 미배선 — 계약 BattleEnemyActionPush)</summary>
 [Serializable]
 public class ResponseEnemyAction : ResponsePacket
 {
