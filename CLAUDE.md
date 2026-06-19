@@ -70,4 +70,3 @@
 - **TurnRPG 계약 = PROVISIONAL**(와이어 id frozen, 필드 형상 미확정). 필드 참조 전 형상 가정 명시·이슈 시 bridge 협의. 자명한 1:1 매핑만 선행.
 - **클라 뷰/연출은 서버 권위 상태의 표현** — 전투 판정·턴 진행은 서버(turnrpg-server) 권위. 클라는 패킷 수신→뷰 갱신(낙관적 표현은 서버 응답으로 정정).
 - 엔진 거동·SDK 모듈 시그니처 추측 금지 — `Assets/Plugins/SMDevLibrary.dll` 실측 또는 engine-sdk REQUEST.
-</content>

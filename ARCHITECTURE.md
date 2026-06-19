@@ -76,4 +76,3 @@ Assets/Scripts/
 - 게임 플로우·전투 규칙·콘텐츠 데이터 = **turnrpg-server**·plan. `(=turnrpg-server 확인)`
 
 **미해소 결정 seam(차기 ADR 후보):** 마이그레이션 순서/단위(로비→배틀 점진 vs 일괄)·로컬 DTO↔계약 DTO 치환 정책·낙관적 표현 vs 서버 정정·SDK 전송 부트스트랩 구조·`TileIndex`↔클라 타일뷰 매핑.
-</content>
