@@ -40,16 +40,19 @@ public class InGameSceneController : SceneController
     }
 
     /// <summary>
-    /// 전투 스냅샷(서버 권위 초기 상태). BattleId 캡처.
-    /// ⚠️ TODO(배틀-init 그리드모델 리워크): 계약 스냅샷=Grid(W/H)+Units(BattleUnitDto)+CurrentUnitId 형상으로
-    ///    구 클라 init(StageDirector.Initialize(StageInfo 웨이브)·스폰)과 모델 발산. 또한 BattleUnitDto는
-    ///    UnitId만 운반(템플릿/비주얼 id 없음)→비주얼 해소 불가. 그리드 init은 후속(디자인/계약 정합 필요).
+    /// 전투 스냅샷(서버 권위 초기 상태) — BattleId 캡처 + 그리드/유닛 초기화 + 턴 루프 시작.
+    /// 유닛 배치·스탯=서버 권위, 비주얼=TemplateId 해소(아군=CharacterDatabase / 적 TemplateId=0=플레이스홀더).
+    /// ⚠️ TileIndex 매핑=팀별 5×3 가정(서버 grid 규약 확인 REQUEST 병행).
     /// </summary>
     private void OnBattleSnapshot(BattleSnapshotPacket res)
     {
         if (res.Code != ENetworkStatusCode.Success) return;
         Client.Instance.ActiveBattleId = res.BattleId;
-        // TODO: res.Grid/res.Units/res.CurrentUnitId 기반 전투 초기화(StageDirector·스폰·StartStage). 후속 슬라이스.
+
+        _stageDirector.InitializeFromSnapshot(res);
+        if (_uiPartyPanel != null)
+            _uiPartyPanel.Initialize(UnitManager.Instance.GetAllies());
+        _stageDirector.StartBattle(res.CurrentUnitId);
     }
 
     private void OnSkillResult(BattleSkillUseResponsePacket res)
