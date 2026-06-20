@@ -42,7 +42,7 @@ public class InGameSceneController : SceneController
     /// <summary>
     /// 전투 스냅샷(서버 권위 초기 상태) — BattleId 캡처 + 그리드/유닛 초기화 + 턴 루프 시작.
     /// 유닛 배치·스탯=서버 권위, 비주얼=TemplateId 해소(아군=CharacterDatabase / 적 TemplateId=0=플레이스홀더).
-    /// ⚠️ TileIndex 매핑=팀별 5×3 가정(서버 grid 규약 확인 REQUEST 병행).
+    /// 단일 공유 그리드·글로벌 TileIndex(ADR-007, 서버 규약 확정).
     /// </summary>
     private void OnBattleSnapshot(BattleSnapshotPacket res)
     {

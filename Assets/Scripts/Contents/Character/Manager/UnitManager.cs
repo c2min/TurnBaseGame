@@ -16,10 +16,10 @@ public class UnitManager : LazySingleton<UnitManager>
     private readonly List<IUnit> _units = new List<IUnit>();
     private readonly List<ITurnActor> _turnActorBuffer = new List<ITurnActor>();
 
-    public void Initialize(TileGroup allyGroup, TileGroup enemyGroup)
+    public void Initialize(TileGroup grid)
     {
         Clear();
-        BattleField = new BattleFieldManager(allyGroup, enemyGroup);
+        BattleField = new BattleFieldManager(grid);
     }
 
     public void Clear()

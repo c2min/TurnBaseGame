@@ -18,8 +18,11 @@ public class StageDirector : MonoBehaviour
     [SerializeField]
     private BattleController _battleController;
 
-    private TileGroup _allyGroup;
-    private TileGroup _enemyGroup;
+    // 오프라인/레거시 폴백 기본 그리드 치수(온라인=GridDto). ⚠️ 임시값 — @plan 오프라인 스펙 시 조정.
+    private const int OfflineGridWidth = 6;
+    private const int OfflineGridHeight = 6;
+
+    private TileGroup _grid;
     private TileHighlighter _highlighter;
 
     public void Initialize(StageInfo stageInfo)
@@ -30,19 +33,21 @@ public class StageDirector : MonoBehaviour
             return;
         }
 
-        SetupTileGroups();
+        SetupGrid(OfflineGridWidth, OfflineGridHeight);
         SetupBattleFieldView();
         SetupAllies();
         SetupWave(stageInfo.Waves);
     }
 
     /// <summary>
-    /// (온라인) 서버 권위 스냅샷으로 전투 초기화. 그리드/유닛 배치=서버 권위.
-    /// ⚠️ TileIndex 매핑 = 팀별 5×3(`TileGroup` COL5×ROW3·Team별 0..14) 가정 — 서버 grid 규약 확인 필요(REQUEST).
+    /// (온라인) 서버 권위 스냅샷으로 전투 초기화. 그리드 치수=GridDto, 유닛 배치=글로벌 TileIndex(서버 권위).
+    /// 단일 공유 그리드(아군·적 공존, ADR-007 — turnrpg-server 규약 확정: TileIndex=Y*Width+X).
     /// </summary>
     public void InitializeFromSnapshot(BattleSnapshotPacket snapshot)
     {
-        SetupTileGroups();
+        int width = snapshot.Grid != null ? snapshot.Grid.Width : OfflineGridWidth;
+        int height = snapshot.Grid != null ? snapshot.Grid.Height : OfflineGridHeight;
+        SetupGrid(width, height);
         SetupBattleFieldView();
 
         if (snapshot.Units != null)
@@ -63,18 +68,17 @@ public class StageDirector : MonoBehaviour
         _battleController.StartLoop(currentUnitId);
     }
 
-    private void SetupTileGroups()
+    private void SetupGrid(int width, int height)
     {
-        _allyGroup = new TileGroup(EUnitTeam.Ally);
-        _enemyGroup = new TileGroup(EUnitTeam.Enemy);
-        _highlighter = new TileHighlighter(_allyGroup, _enemyGroup);
+        _grid = new TileGroup(width, height);
+        _highlighter = new TileHighlighter(_grid);
 
-        UnitManager.Instance.Initialize(_allyGroup, _enemyGroup);
+        UnitManager.Instance.Initialize(_grid);
     }
 
     private void SetupBattleFieldView()
     {
-        _battleFieldView.Initialize(_highlighter, _allyGroup, _enemyGroup);
+        _battleFieldView.Initialize(_highlighter, _grid);
         _battleController.SetBattleFieldView(_battleFieldView);
     }
 
