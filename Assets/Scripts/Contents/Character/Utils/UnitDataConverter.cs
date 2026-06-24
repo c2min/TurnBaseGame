@@ -16,6 +16,8 @@ public interface IUnitServerData
 public class AllyInfo : IUnitServerData
 {
     public string UnitId { get; set; }
+    /// <summary>콘텐츠 템플릿 id(int·ADR-006) — 비주얼/정의 해소 키(CharacterDatabase). UnitId(인스턴스)와 별개.</summary>
+    public int TemplateId { get; set; }
     public string Name { get; set; }
     public int Level { get; set; }
     public int Hp { get; set; }

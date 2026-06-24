@@ -25,7 +25,7 @@ public class MonsterSpawner : MonoBehaviour
     {
         var enemy = Instantiate(_enemyPrefab);
         var characterData = dto.TemplateId > 0
-            ? Client.Instance.GameData?.Characters.Get(dto.TemplateId.ToString())
+            ? Client.Instance.GameData?.Characters.Get(dto.TemplateId)
             : null;
 
         var element = characterData != null ? characterData.Element : default;

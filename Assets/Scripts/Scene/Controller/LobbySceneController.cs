@@ -55,7 +55,7 @@ public class LobbySceneController : SceneController
 
     private void OnClickStageButton()
     {
-        // TODO(turnrpg-server/plan 협의): StageId string("stage_001")→int 매핑 규약 확정. 현재 1 고정.
+        // StageId 정본=int(ADR-006). ⚠️ 스테이지 '선택' 소스 미배선 → 현재 1 고정(스테이지 선택 UI=후속).
         var req = new StageEnterRequestPacket
         {
             StageId = 1,
@@ -92,7 +92,7 @@ public class LobbySceneController : SceneController
         foreach (var set in allySetInfos)
         {
             if (set?.Ally == null) continue;
-            // TODO(id 규약): 계약 CharacterId는 long. 레거시 AllyInfo.UnitId(string)를 파싱.
+            // 계약 CharacterId=인스턴스 id(long). UnitId(string)=인스턴스 id 표현 → long 파싱(Phase1: ==TemplateId).
             long.TryParse(set.Ally.UnitId, out var characterId);
             slots.Add(new PartySlotDto { CharacterId = characterId, TileIndex = set.TileIndex });
         }

@@ -3,7 +3,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CharacterData", menuName = "TurnBase/Character/CharacterData")]
 public class CharacterData : ScriptableObject
 {
-    public string CharacterId;
+    // 콘텐츠 정본 id = int(ADR-006, plan+turnrpg-server 확정). 계약 CharacterInfo/BattleUnitDto.TemplateId와 직매핑.
+    public int TemplateId;
     public string CharacterName;
     public Sprite Portrait;
     public GameObject SpinePrefab;

@@ -64,6 +64,7 @@ public class Client : MonoSingleton<Client>
         var ally = new AllyInfo
         {
             UnitId      = c.CharacterId.ToString(),
+            TemplateId  = c.TemplateId,
             Level       = c.Level,
             Hp          = c.Hp,
             Speed       = c.Speed,
@@ -71,8 +72,8 @@ public class Client : MonoSingleton<Client>
             Defense     = c.Defense,
         };
 
-        // TODO(id 규약 — plan/turnrpg-server 확정): CharacterData.CharacterId(string) == TemplateId.ToString() 가정.
-        var data = GameData?.Characters?.Get(c.TemplateId.ToString());
+        // 콘텐츠 정본 id=int(ADR-006) → TemplateId로 CharacterDatabase 직접 조회.
+        var data = GameData?.Characters?.Get(c.TemplateId);
         if (data != null)
         {
             ally.Name        = data.CharacterName;

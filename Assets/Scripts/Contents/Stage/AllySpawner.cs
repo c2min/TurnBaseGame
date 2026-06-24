@@ -10,7 +10,7 @@ public class AllySpawner : MonoBehaviour
     public void SpawnAlly(AllySetInfo allySet)
     {
         var ally = Instantiate(_allyPrefab);
-        var characterData = Client.Instance.GameData?.Characters.Get(allySet.Ally.UnitId);
+        var characterData = Client.Instance.GameData?.Characters.Get(allySet.Ally.TemplateId);
 
         var equipped = EquipmentCache.Instance.GetEquipped(allySet.Ally.UnitId);
         var stats = EquipmentStatCalculator.Calculate(allySet.Ally, equipped);
@@ -23,8 +23,7 @@ public class AllySpawner : MonoBehaviour
     public void SpawnFromSnapshot(BattleUnitDto dto)
     {
         var ally = Instantiate(_allyPrefab);
-        // TODO(id 규약): CharacterData.CharacterId(string) == TemplateId.ToString() 가정(plan/turnrpg-server 확정).
-        var characterData = Client.Instance.GameData?.Characters.Get(dto.TemplateId.ToString());
+        var characterData = Client.Instance.GameData?.Characters.Get(dto.TemplateId);
 
         var element = characterData != null ? characterData.Element : default;
         int maxTenacity = characterData != null ? characterData.BaseTenacity : 3;

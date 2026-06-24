@@ -124,15 +124,13 @@ public class UISkillBar : MonoBehaviour
 
         ClearPending();
 
-        // 계약 BattleSkillUseRequestPacket: 단일 TargetUnitId·int SkillId·BattleId 운반.
-        // ⚠️ 멀티타겟/AoE는 계약 단일타겟 → 첫 타겟만 송신(발산, 디자인 정합 시 재검토).
-        // TODO(id 규약): SkillId string→int 파싱(템플릿 id 규약 @plan/turnrpg-server 확정 필요).
-        int.TryParse(skill.Data.SkillId, out var skillId);
+        // 계약 BattleSkillUseRequestPacket: 단일 TargetUnitId(앵커)·int SkillId·BattleId 운반.
+        // 멀티타겟/AoE는 서버가 앵커+타게팅타입으로 해소(서버 권위) → 클라는 앵커 1개만 송신.
         UnityNetworkBridge.Instance.SendPacket(new BattleSkillUseRequestPacket
         {
             BattleId     = Client.Instance.ActiveBattleId,
             CasterUnitId = _currentActor.UnitId,
-            SkillId      = skillId,
+            SkillId      = skill.Data.SkillId,
             TargetUnitId = targets != null && targets.Count > 0 ? targets[0] : string.Empty,
         });
 
