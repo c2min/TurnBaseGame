@@ -1,4 +1,5 @@
 using SM.Contracts.Core;
+using SMDevLibrary.SceneManagement;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,13 +7,13 @@ using UnityEngine;
 /// <summary>
 /// 각 씬 공통사항
 /// </summary>
-public class SceneController : MonoBehaviour
+public class SceneController : MonoBehaviour, ISceneController
 {
     private readonly Dictionary<Type, Action<ResponsePacket>> _packetHandlers = new();
 
     protected virtual void Awake()
     {
-        Client.Instance.SceneMgr.RegisterController(this);
+        TurnRpgSceneFlow.Instance.RegisterController(this);
     }
 
     public virtual void OnSceneExit() { }

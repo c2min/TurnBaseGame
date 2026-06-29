@@ -7,8 +7,6 @@ using UnityEngine;
 
 public class Client : MonoSingleton<Client>
 {
-    public SceneManager SceneMgr;
-
     [SerializeField]
     private GameDataConfig _gameData;
     public GameDataConfig GameData => _gameData;
@@ -20,7 +18,6 @@ public class Client : MonoSingleton<Client>
 
     protected override void Awake()
     {
-        SceneMgr = GetComponentInChildren<SceneManager>();
         base.Awake();
     }
 

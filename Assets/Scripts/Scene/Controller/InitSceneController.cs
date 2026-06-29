@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using SM.Contracts.TurnRPG;
 using UnityEngine;
 
@@ -27,6 +28,6 @@ public class InitSceneController : SceneController
             Token = guestId,
         };
 
-        Client.Instance.SceneMgr.LoadScene("LobbyScene", req);
+        TurnRpgSceneFlow.Instance.LoadScene("LobbyScene", req).Forget();
     }
 }

@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using SMDevLibrary.Managers;
 using SMDevLibrary.Network.Utility;
 // Core는 ENetworkStatusCode만 타깃 별칭(광역 import 시 로컬 동명 타입 충돌 회피). 로비 패킷은 TurnRPG 광역.
@@ -62,7 +63,7 @@ public class LobbySceneController : SceneController
             Party = BuildPartyDto(PartyCache.Instance.AllySetInfos),
         };
 
-        Client.Instance.SceneMgr.LoadScene("InGameScene", req);
+        TurnRpgSceneFlow.Instance.LoadScene("InGameScene", req).Forget();
     }
 
     /// <summary>
