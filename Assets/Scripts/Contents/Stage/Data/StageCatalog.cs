@@ -39,8 +39,11 @@ public class StageCatalog : LazySingleton<StageCatalog>
         foreach (var pair in map)
             _entries[pair.Key] = pair.Value;
 
+        // 정렬키 = SortOrder → stageId 타이브레이크(plan 명세)
         _sortedStageIds.Clear();
-        _sortedStageIds.AddRange(_entries.Keys.OrderBy(id => _entries[id].SortOrder));
+        _sortedStageIds.AddRange(_entries.Keys
+            .OrderBy(id => _entries[id].SortOrder)
+            .ThenBy(id => id));
     }
 
     public bool TryGet(int stageId, out StageCatalogEntry entry) => _entries.TryGetValue(stageId, out entry);
