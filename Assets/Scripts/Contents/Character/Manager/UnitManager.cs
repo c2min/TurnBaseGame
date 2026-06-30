@@ -53,6 +53,10 @@ public class UnitManager : LazySingleton<UnitManager>
         }
     }
 
+    /// <summary>유닛을 다른 타일로 이동(서버 권위 BattleEnemyActionPush.MovedToTileIndex). 시각=BattleFieldView가 OnTileChanged로 갱신.</summary>
+    public bool MoveUnit(IPlaceable unit, int toIndex)
+        => BattleField != null && BattleField.Grid.TryMove(unit, toIndex);
+
     public void RemoveUnit(IPlaceable unit)
     {
         if (!_units.Contains(unit))

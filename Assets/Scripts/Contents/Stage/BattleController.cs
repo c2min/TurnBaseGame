@@ -109,29 +109,25 @@ public class BattleController : MonoBehaviour
                 () => UnitManager.Instance.EnemyCount > 0,
                 cancellationToken: ct);
 
-            var actor = UnitManager.Instance.ActivateTurnFor(currentActorId);
-            if (actor == null)
-            {
-                await UniTask.NextFrame(ct);
-                continue;
-            }
+            var actor = UnitManager.Instance.GetUnit(currentActorId) as ITurnActor;
 
-            actor.OnTurnStart();
-
-            if (actor.Team == EUnitTeam.Ally)
+            // 아군 턴만 클라가 능동 처리(입력 → SkillUse/Move → TurnEnd).
+            // 적 턴 = 완전 서버 주도(적 행동/이동/진행=BattleEnemyActionPush). 클라 입력·TurnEnd 없음 →
+            // 적 페이즈는 여기서 아무것도 안 하고 WaitForNextActorIdAsync에서 대기(적 푸시가 종료 시 아군 actor 통지).
+            if (actor != null && actor.Team == EUnitTeam.Ally)
             {
+                UnitManager.Instance.ActivateTurnFor(currentActorId);
+                actor.OnTurnStart();
+
                 _playerActed = false;
                 await UniTask.WaitUntil(() => _playerActed, cancellationToken: ct);
-            }
-            else
-            {
-                await RunEnemyTurn(actor, ct);
+
+                actor.OnTurnEnd();
+
+                // 계약 BattleTurnEndRequestPacket은 BattleId만 운반(서버가 현재 턴 유닛 권위 보유).
+                UnityNetworkBridge.Instance.SendPacket(new BattleTurnEndRequestPacket { BattleId = Client.Instance.ActiveBattleId });
             }
 
-            actor.OnTurnEnd();
-
-            // 계약 BattleTurnEndRequestPacket은 BattleId만 운반(서버가 현재 턴 유닛 권위 보유).
-            UnityNetworkBridge.Instance.SendPacket(new BattleTurnEndRequestPacket { BattleId = Client.Instance.ActiveBattleId });
             currentActorId = await WaitForNextActorIdAsync(ct);
             if (currentActorId == null) break;
         }
