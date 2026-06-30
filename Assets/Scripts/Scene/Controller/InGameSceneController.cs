@@ -96,6 +96,10 @@ public class InGameSceneController : SceneController
     {
         if (res.Code != ENetworkStatusCode.Success) return;
 
+        // 턴 종료 유닛의 Periodic(독 DoT/재생 HoT) 효과 — 스킬과 동형 SkillEffectDto·기존 렌더러 재사용.
+        // 독 치사 시 해당 UnitId가 Effects 데미지로 사망(TakeDamage→OnDied→그리드 제거, 스킬 사망과 동일).
+        ApplyEffects(res.Effects);
+
         // 적 페이즈 시작(IsEnemyTurn=true)은 진행을 적 푸시가 운반 → 루프 대기 유지(여기서 진행 안 함).
         if (res.IsEnemyTurn) return;
 
