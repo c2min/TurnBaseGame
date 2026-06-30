@@ -56,10 +56,15 @@ public class LobbySceneController : SceneController
 
     private void OnClickStageButton()
     {
-        // StageId 정본=int(ADR-006). ⚠️ 스테이지 '선택' 소스 미배선 → 현재 1 고정(스테이지 선택 UI=후속).
+        UIManager.Instance.Show<UIStageSelectPopup>(p => p.Open(OnStageSelected));
+    }
+
+    private void OnStageSelected(int stageId)
+    {
+        // StageId 정본=int(ADR-006). 선택 UI에서 받은 StageId로 전투 진입(전투 init=서버 BattleSnapshot 권위).
         var req = new StageEnterRequestPacket
         {
-            StageId = 1,
+            StageId = stageId,
             Party = BuildPartyDto(PartyCache.Instance.AllySetInfos),
         };
 

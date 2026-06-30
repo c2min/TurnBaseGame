@@ -168,6 +168,10 @@
     <Compile Include="Assets\Scripts\Contents\Stage\Commands\SkillTargetResolver.cs" />
     <Compile Include="Assets\Scripts\Contents\Skill\Effects\DamageEffect.cs" />
     <Compile Include="Assets\Scripts\Scene\Controller\LobbySceneController.cs" />
+    <Compile Include="Assets\Scripts\Contents\Stage\Data\StageCatalogEntry.cs" />
+    <Compile Include="Assets\Scripts\Contents\Stage\Data\StageCatalog.cs" />
+    <Compile Include="Assets\Scripts\Contents\Stage\UI\UIStageSlot.cs" />
+    <Compile Include="Assets\Scripts\Contents\Stage\UI\UIStageSelectPopup.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ShaderPropAnimator.cs" />
     <Compile Include="Assets\Scripts\Network\Response.cs" />
     <Compile Include="Assets\Scripts\Contents\Character\Equipment\EquipmentCache.cs" />
