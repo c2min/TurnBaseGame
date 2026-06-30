@@ -94,10 +94,8 @@
     <Compile Include="Assets\Scripts\Contents\Character\Party\PartyCache.cs" />
     <Compile Include="Assets\Scripts\Contents\Character\Party\UI\UICharSkillPanel.cs" />
     <Compile Include="Assets\Scripts\Contents\Skill\Effects\SkillEffect.cs" />
-    <Compile Include="Assets\Scripts\Contents\Stage\VFX\VFXPlayer.cs" />
     <Compile Include="Assets\Scripts\Contents\Character\Party\UI\UISkillInfoSlot.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_A.cs" />
-    <Compile Include="Assets\Scripts\Contents\Audio\SFXClip.cs" />
     <Compile Include="Assets\Scripts\Contents\Stage\WaveInfo.cs" />
     <Compile Include="Assets\Scripts\Contents\UI\Battle\UITurnOrderSlot.cs" />
     <Compile Include="Assets\Scripts\Scene\Controller\InitSceneController.cs" />
@@ -141,7 +139,6 @@
     <Compile Include="Assets\Scripts\Contents\Character\Equipment\ComputedStats.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshSpawner.cs" />
-    <Compile Include="Assets\Scripts\Contents\Audio\SFXManager.cs" />
     <Compile Include="Assets\Scripts\Contents\Character\Party\UI\SpineCharacterPreview.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
     <Compile Include="Assets\Scripts\Contents\Character\Party\UI\UICharacterList.cs" />
@@ -176,7 +173,6 @@
     <Compile Include="Assets\Scripts\Contents\Character\Equipment\EquipmentCache.cs" />
     <Compile Include="Assets\Scripts\Contents\Stage\Commands\SkillEffectCommand.cs" />
     <Compile Include="Assets\Scripts\Contents\Character\Status\StatusEffectBase.cs" />
-    <Compile Include="Assets\Scripts\Contents\Stage\VFX\VFXManager.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\Contents\Inventory\ItemDatabase.cs" />
     <Compile Include="Assets\Scripts\Contents\Stage\StageDirector.cs" />
@@ -184,12 +180,10 @@
     <Compile Include="Assets\Scripts\Contents\Character\TurnOrderCalculator.cs" />
     <Compile Include="Assets\Scripts\Contents\Character\Status\IStatusEffect.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark03.cs" />
-    <Compile Include="Assets\Scripts\Contents\Audio\SFXPlayer.cs" />
     <Compile Include="Assets\Scripts\Contents\Character\Status\StatusEffectFactory.cs" />
     <Compile Include="Assets\Scripts\Common\UserInfo.cs" />
     <Compile Include="Assets\Scripts\Contents\Inventory\ItemInstance.cs" />
     <Compile Include="Assets\ThirdParty\Drawinguy\FreeSet\01 Script\FFGrid.cs" />
-    <Compile Include="Assets\Scripts\Contents\Stage\VFX\VFXClip.cs" />
     <Compile Include="Assets\Scripts\Scene\Controller\SceneController.cs" />
     <Compile Include="Assets\Scripts\Contents\Skill\ESkillType.cs" />
     <Compile Include="Assets\Scripts\Contents\Character\Party\UI\UIPartyEditPopup.cs" />
