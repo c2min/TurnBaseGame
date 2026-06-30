@@ -85,7 +85,6 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMPro_InstructionOverlay.cs" />
     <Compile Include="Assets\Scripts\Contents\Stage\Commands\PlayAnimationCommand.cs" />
     <Compile Include="Assets\Scripts\Contents\Skill\Effects\StatusApplyEffect.cs" />
-    <Compile Include="Assets\Scripts\Common\Resource\ICache.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
     <Compile Include="Assets\Scripts\Contents\UI\Battle\UIStatusEffectIcon.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\DropdownSample.cs" />
@@ -94,7 +93,6 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\EnvMapAnimator.cs" />
     <Compile Include="Assets\Scripts\Contents\Character\Party\PartyCache.cs" />
     <Compile Include="Assets\Scripts\Contents\Character\Party\UI\UICharSkillPanel.cs" />
-    <Compile Include="Assets\Scripts\Common\Resource\ResourceManager.cs" />
     <Compile Include="Assets\Scripts\Contents\Skill\Effects\SkillEffect.cs" />
     <Compile Include="Assets\Scripts\Contents\Stage\VFX\VFXPlayer.cs" />
     <Compile Include="Assets\Scripts\Contents\Character\Party\UI\UISkillInfoSlot.cs" />
@@ -109,7 +107,6 @@
     <Compile Include="Assets\Scripts\Contents\Stage\Tile\BattleFieldView.cs" />
     <Compile Include="Assets\Scripts\Contents\Character\Status\StatusEffectHandler.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark04.cs" />
-    <Compile Include="Assets\Scripts\Common\Resource\ResourceCacheHelper.cs" />
     <Compile Include="Assets\Scripts\Contents\Character\Party\UI\UICharInfoPanel.cs" />
     <Compile Include="Assets\Scripts\Contents\Character\Utils\UnitDataConverter.cs" />
     <Compile Include="Assets\Scripts\Contents\Stage\StageInfo.cs" />
@@ -159,7 +156,6 @@
     <Compile Include="Assets\Scripts\Contents\Skill\SkillData.cs" />
     <Compile Include="Assets\Scripts\Contents\Inventory\UI\UIStatRow.cs" />
     <Compile Include="Assets\Scripts\Contents\Character\CharacterData.cs" />
-    <Compile Include="Assets\Scripts\Common\Resource\ResourceAddressTable.cs" />
     <Compile Include="Assets\Scripts\Contents\Inventory\UI\UIInventoryPopup.cs" />
     <Compile Include="Assets\Scripts\Common\Client.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SkewTextExample.cs" />

@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using SM.Contracts.Core;
 using SMDevLibrary.Network.Utility;
+using SMDevLibrary.Resource;
 using SMDevLibrary.SceneManagement;
 using System;
 using System.Collections.Generic;
@@ -31,7 +32,7 @@ public class TurnRpgSceneFlow : SceneFlowManager<TurnRpgSceneFlow>
     protected override UniTask OnBeforeLoadAsync(CancellationToken ct)
     {
         _pendingPackets.Clear();
-        ResourceManager.Instance.Reset();
+        ResourceLoader.Instance.Reset();
 
         if (_pendingRequest != null)
         {
