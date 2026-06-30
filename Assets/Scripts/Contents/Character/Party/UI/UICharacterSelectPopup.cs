@@ -174,8 +174,8 @@ public class UICharacterSelectPopup : BasePopup
 
     private void OnEquipSwapClicked()
     {
-        // TODO: 인벤토리 팝업 연결 (슬롯 카테고리 전달)
-        Debug.Log($"[CharSelect] 장비 교체: {(_pendingAlly != null ? _pendingAlly.Name : "없음")}");
+        // 인벤토리 팝업 열기(전체 카테고리 브라우즈) — 실제 장착은 장착 계약(미커버) 착지 후 배선
+        UIManager.Instance.Show<UIInventoryPopup>(p => p.Open());
     }
 
     private void OnEquipEnhanceClicked()

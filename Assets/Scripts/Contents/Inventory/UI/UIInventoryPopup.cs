@@ -77,7 +77,9 @@ public class UIInventoryPopup : BasePopup
         _detailPanel.OnEnhanceClicked = OnEnhanceClicked;
     }
 
-    public void Open()
+    public void Open() => Open(EItemCategory.All);
+
+    public void Open(EItemCategory category)
     {
         _selectedItem   = null;
         _sortIndex      = 0;
@@ -86,7 +88,7 @@ public class UIInventoryPopup : BasePopup
 
         _detailPanel.Hide();
         gameObject.SetActive(true);
-        SelectCategory(EItemCategory.All);
+        SelectCategory(category);
     }
 
     public void Refresh()
