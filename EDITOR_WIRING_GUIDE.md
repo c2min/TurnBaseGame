@@ -116,6 +116,33 @@
 
 ---
 
+## 🔧 강화·성장 UI 셸 (2026-07-02 · 셸 저작·실동작=계약 후)
+
+> `EQUIP_GROWTH_DESIGN.md` 기반 선행 셸. ⚠️ 강화/돌파 **실동작**(요청 송신·비용/재료 표시)은 계약 배포(turnrpg-server→bridge) + O7(경제/영속) 착지 후. 현재 = 표시 셸 + 버튼(TODO 로그).
+
+### 1. `UIEnhancePopup` — BasePopup (프리팹, PopupPath "Enhance")
+- [ ] **부착·생성**: 신규 프리팹 `[PopupPath("Enhance")]`. `Contents/Inventory/UI/UIEnhancePopup.cs`. 오픈=`UIInventoryPopup.OnEnhanceClicked`→`Show<UIEnhancePopup>(p=>p.Open(item))`(코드).
+  | 필드 | 타입 | 할당 |
+  |---|---|---|
+  | `_itemNameText` | `TextMeshProUGUI` | 아이템명 |
+  | `_enchantText` | `TextMeshProUGUI` | "+N → +N+1" |
+  | `_enhanceButton` | `Button` | 확정 강화 |
+  | `_closeButton` | `Button` | 닫기 |
+- 검증 포인트: 미생성/PopupPath 불일치=강화 버튼 눌러도 안 뜸.
+
+### 2. `UIBreakthroughPopup` — BasePopup (프리팹, PopupPath "Breakthrough")
+- [ ] **부착·생성**: 신규 프리팹 `[PopupPath("Breakthrough")]`. `Contents/Character/Party/UI/UIBreakthroughPopup.cs`. 오픈=`UICharacterSelectPopup.OnLevelUpClicked`→`Show<UIBreakthroughPopup>(p=>p.Open(ally))`(코드).
+  | 필드 | 타입 | 할당 |
+  |---|---|---|
+  | `_nameText` | `TextMeshProUGUI` | 캐릭터명 |
+  | `_levelText` | `TextMeshProUGUI` | "Lv.N" |
+  | `_stageText` | `TextMeshProUGUI` | "돌파 N→N+1"(O7 후 실값·현 "—") |
+  | `_breakthroughButton` | `Button` | 돌파 |
+  | `_closeButton` | `Button` | 닫기 |
+- 검증 포인트: 셸 표시는 name/level만(돌파 단계·재료=O7/계약 후).
+
+---
+
 ## ⚔️ 배틀 서버권위 — 런타임 검증 전용 (배선 무관·참고)
 
 > 아래는 신규 프리팹/SerializeField 배선이 **아니라** 코드 자동(핸들러 등록 등)이므로 배선 액션 없음. **Unity 런타임 검증만** 필요.

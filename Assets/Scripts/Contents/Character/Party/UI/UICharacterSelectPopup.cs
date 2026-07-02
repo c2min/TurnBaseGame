@@ -162,8 +162,9 @@ public class UICharacterSelectPopup : BasePopup
 
     private void OnLevelUpClicked()
     {
-        // TODO: 캐릭터 강화 팝업 연결
-        Debug.Log($"[CharSelect] 캐릭터 강화: {(_pendingAlly != null ? _pendingAlly.Name : "없음")}");
+        // 캐릭터 성장(돌파) 팝업 열기(셸). ⚠️실 돌파 송신=계약 배포+O7(성장상태 영속) 착지 후(EQUIP_GROWTH_DESIGN.md).
+        if (_pendingAlly == null) return;
+        UIManager.Instance.Show<UIBreakthroughPopup>(p => p.Open(_pendingAlly));
     }
 
     private void OnSkillLevelUpClicked()

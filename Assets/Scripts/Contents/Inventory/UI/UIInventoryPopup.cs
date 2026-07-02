@@ -183,8 +183,8 @@ public class UIInventoryPopup : BasePopup
 
     private void OnEnhanceClicked(ItemInstance item)
     {
-        // TODO: 강화 팝업 연결
-        Debug.Log($"[Inventory] 강화 요청: {item.Data.ItemName} +{item.EnchantLevel}");
+        // 장비 강화 팝업 열기(확정 강화 셸). ⚠️실 강화 송신=계약 배포+O7 경제 착지 후(EQUIP_GROWTH_DESIGN.md).
+        UIManager.Instance.Show<UIEnhancePopup>(p => p.Open(item));
     }
 
     private void UpdateCountText()

@@ -77,6 +77,8 @@
     <Compile Include="Assets\Scripts\Contents\Character\CharacterDatabase.cs" />
     <Compile Include="Assets\Scripts\Scene\SceneTransition.cs" />
     <Compile Include="Assets\Scripts\Contents\Character\Party\UI\UICharacterSelectPopup.cs" />
+    <Compile Include="Assets\Scripts\Contents\Character\Party\UI\UIBreakthroughPopup.cs" />
+    <Compile Include="Assets\Scripts\Contents\Inventory\UI\UIEnhancePopup.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeA.cs" />
     <Compile Include="Assets\Scripts\Contents\Skill\UI\UISkillBar.cs" />
     <Compile Include="Assets\Scripts\Common\Spine\Data\Animation\SpineAnimationConfig.cs" />
@@ -86,6 +88,7 @@
     <Compile Include="Assets\Scripts\Contents\Stage\Commands\PlayAnimationCommand.cs" />
     <Compile Include="Assets\Scripts\Contents\Skill\Effects\StatusApplyEffect.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
+    <Compile Include="Assets\Scripts\Contents\Stage\UI\UIStageSlot.cs" />
     <Compile Include="Assets\Scripts\Contents\UI\Battle\UIStatusEffectIcon.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\DropdownSample.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexColorCycler.cs" />
@@ -93,6 +96,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\EnvMapAnimator.cs" />
     <Compile Include="Assets\Scripts\Contents\Character\Party\PartyCache.cs" />
     <Compile Include="Assets\Scripts\Contents\Character\Party\UI\UICharSkillPanel.cs" />
+    <Compile Include="Assets\Scripts\Contents\Stage\Data\StageCatalog.cs" />
     <Compile Include="Assets\Scripts\Contents\Skill\Effects\SkillEffect.cs" />
     <Compile Include="Assets\Scripts\Contents\Character\Party\UI\UISkillInfoSlot.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_A.cs" />
@@ -113,6 +117,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ObjectSpin.cs" />
     <Compile Include="Assets\Scripts\Contents\Inventory\UI\UIInventorySlot.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_PhoneNumberValidator.cs" />
+    <Compile Include="Assets\Scripts\Contents\Stage\UI\UIStageSelectPopup.cs" />
     <Compile Include="Assets\Scripts\Contents\Stage\AllySpawner.cs" />
     <Compile Include="Assets\Scripts\Contents\Stage\BattleController.cs" />
     <Compile Include="Assets\ThirdParty\Drawinguy\FreeSet\01 Script\ViewScene.cs" />
@@ -152,6 +157,7 @@
     <Compile Include="Assets\Scripts\Contents\Inventory\ItemEnumExtensions.cs" />
     <Compile Include="Assets\Scripts\Contents\Skill\SkillData.cs" />
     <Compile Include="Assets\Scripts\Contents\Inventory\UI\UIStatRow.cs" />
+    <Compile Include="Assets\Scripts\Contents\Stage\Data\StageCatalogEntry.cs" />
     <Compile Include="Assets\Scripts\Contents\Character\CharacterData.cs" />
     <Compile Include="Assets\Scripts\Contents\Inventory\UI\UIInventoryPopup.cs" />
     <Compile Include="Assets\Scripts\Common\Client.cs" />
@@ -168,10 +174,6 @@
     <Compile Include="Assets\Scripts\Contents\Stage\Commands\SkillTargetResolver.cs" />
     <Compile Include="Assets\Scripts\Contents\Skill\Effects\DamageEffect.cs" />
     <Compile Include="Assets\Scripts\Scene\Controller\LobbySceneController.cs" />
-    <Compile Include="Assets\Scripts\Contents\Stage\Data\StageCatalogEntry.cs" />
-    <Compile Include="Assets\Scripts\Contents\Stage\Data\StageCatalog.cs" />
-    <Compile Include="Assets\Scripts\Contents\Stage\UI\UIStageSlot.cs" />
-    <Compile Include="Assets\Scripts\Contents\Stage\UI\UIStageSelectPopup.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ShaderPropAnimator.cs" />
     <Compile Include="Assets\Scripts\Network\Response.cs" />
     <Compile Include="Assets\Scripts\Contents\Character\Equipment\EquipmentCache.cs" />
