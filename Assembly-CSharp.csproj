@@ -123,7 +123,6 @@
     <Compile Include="Assets\Scripts\Common\Spine\SpineAnimationController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexJitter.cs" />
     <Compile Include="Assets\Scripts\Contents\Stage\MonsterSpawner.cs" />
-    <Compile Include="Assets\Scripts\Contents\Skill\Effects\EEffectTarget.cs" />
     <Compile Include="Assets\Scripts\Contents\Character\Element\EElement.cs" />
     <Compile Include="Assets\Scripts\Scene\Controller\InGameSceneController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_DigitValidator.cs" />
@@ -168,7 +167,6 @@
     <Compile Include="Assets\Scripts\Contents\Inventory\ItemData.cs" />
     <Compile Include="Assets\Scripts\Contents\Character\Manager\UnitManager.cs" />
     <Compile Include="Assets\Scripts\Contents\Character\Player\PlayerUnitController.cs" />
-    <Compile Include="Assets\Scripts\Contents\Stage\Commands\SkillTargetResolver.cs" />
     <Compile Include="Assets\Scripts\Contents\Skill\Effects\DamageEffect.cs" />
     <Compile Include="Assets\Scripts\Scene\Controller\LobbySceneController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ShaderPropAnimator.cs" />

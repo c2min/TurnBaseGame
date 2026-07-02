@@ -1,8 +1,6 @@
 using Cysharp.Threading.Tasks;
 using SM.Contracts.Core;
 using SM.Contracts.TurnRPG;
-// 로컬 global ESkillEffectType(STUB)와 alias 동명 충돌(CS0576) 회피 → 구분 이름으로 계약 enum 참조.
-using ContractEffect = SM.Contracts.TurnRPG.ESkillEffectType;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -119,13 +117,13 @@ public class InGameSceneController : SceneController
 
             switch (effect.EffectType)
             {
-                case ContractEffect.Damage:
+                case ESkillEffectType.Damage:
                     target.TakeDamage(effect.Value);
                     break;
-                case ContractEffect.Heal:
+                case ESkillEffectType.Heal:
                     target.Heal(effect.Value);
                     break;
-                case ContractEffect.StatusApply:
+                case ESkillEffectType.StatusApply:
                     if (target is IStatusReceiver receiver)
                     {
                         var statusEffect = StatusEffectFactory.Create(effect.StatusType, effect.Duration, effect.Value);

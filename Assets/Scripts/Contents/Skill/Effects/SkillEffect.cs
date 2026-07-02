@@ -7,8 +7,7 @@ using UnityEngine;
 /// </summary>
 public abstract class SkillEffect : ScriptableObject
 {
-    public EEffectTarget Target;
-
+    // 타게팅=서버 권위(앵커 송신·서버 해소). 클라 프리뷰=TileHighlighter. EEffectTarget(레인 자동타게팅)=오프라인 폐지로 제거.
     [Header("VFX / SFX")]
     [Tooltip("효과 적용 전 대상 위치에서 재생할 VFX (없으면 생략)")]
     public VFXClip HitVFX;
