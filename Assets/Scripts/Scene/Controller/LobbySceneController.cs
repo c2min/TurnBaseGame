@@ -32,10 +32,9 @@ public class LobbySceneController : SceneController
         RegisterPacketHandler<LobbyLoginResponsePacket>(OnLogin);
         RegisterPacketHandler<PartyValidateResponsePacket>(OnPartyValidate);
         RegisterPacketHandler<CharacterListResponsePacket>(OnCharacterList);
-        RegisterPacketHandler<ResponseInventoryList>(OnInventoryList);
-        RegisterPacketHandler<ResponseSellItem>(OnSellItem);
-        RegisterPacketHandler<ResponseEquipItem>(OnEquipItem);
-        RegisterPacketHandler<ResponseUnequipItem>(OnUnequipItem);
+        RegisterPacketHandler<EquipmentInventoryResponsePacket>(OnInventoryList);
+        RegisterPacketHandler<EquipmentEquipResponsePacket>(OnEquip);
+        RegisterPacketHandler<EquipmentUnequipResponsePacket>(OnUnequip);
 
         _inventoryButton?.onClick.AddListener(OnClickInventoryButton);
         _characterButton.onClick.AddListener(OnClickCharacterButton);
@@ -131,35 +130,34 @@ public class LobbySceneController : SceneController
 
     private void OnClickInventoryButton()
     {
-        UnityNetworkBridge.Instance.SendPacket(RequestInventoryList.Shared);
+        UnityNetworkBridge.Instance.SendPacket(new EquipmentInventoryRequestPacket());
     }
 
-    private async void OnInventoryList(ResponseInventoryList res)
+    private async void OnInventoryList(EquipmentInventoryResponsePacket res)
     {
         if (res.Code != ENetworkStatusCode.Success)
             return;
 
-        InventoryCache.Instance.Set(res.Items, Client.Instance.GameData.Items, res.MaxCount);
+        InventoryCache.Instance.SetFromDtos(res.Equipments, Client.Instance.GameData.Items);
         _inventoryPopup = await UIManager.Instance.Show<UIInventoryPopup>(p => p.Open());
-    }
-
-    private void OnSellItem(ResponseSellItem res)
-    {
-        if (_inventoryPopup != null)
-            _inventoryPopup.OnSellResponse(res);
     }
 
     private void OnCharacterList(CharacterListResponsePacket res) { }
 
-    private void OnEquipItem(ResponseEquipItem res)
+    // 장착/해제 결과(서버 권위): 인벤 Affected(장착분+자동해제분) 반영 + 캐릭 최종스탯(Character) 갱신.
+    private void OnEquip(EquipmentEquipResponsePacket res)
     {
-        if (_inventoryPopup != null)
-            _inventoryPopup.OnEquipResponse(res);
+        if (res.Code != ENetworkStatusCode.Success) return;
+        InventoryCache.Instance.ApplyAffected(res.Affected, Client.Instance.GameData.Items);
+        Client.Instance.ApplyCharacterStats(res.Character);
+        _inventoryPopup?.Refresh();
     }
 
-    private void OnUnequipItem(ResponseUnequipItem res)
+    private void OnUnequip(EquipmentUnequipResponsePacket res)
     {
-        if (_inventoryPopup != null)
-            _inventoryPopup.OnUnequipResponse(res);
+        if (res.Code != ENetworkStatusCode.Success) return;
+        InventoryCache.Instance.ApplyAffected(res.Affected, Client.Instance.GameData.Items);
+        Client.Instance.ApplyCharacterStats(res.Character);
+        _inventoryPopup?.Refresh();
     }
 }

@@ -131,7 +131,6 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextConsoleSimulator.cs" />
     <Compile Include="Assets\Scripts\Contents\Inventory\InventoryCache.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TeleType.cs" />
-    <Compile Include="Assets\Scripts\Contents\Character\Equipment\CharacterEquipment.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventCheck.cs" />
     <Compile Include="Assets\Scripts\Common\GameDataConfig.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_UiFrameRateCounter.cs" />
@@ -189,7 +188,6 @@
     <Compile Include="Assets\Scripts\Contents\Skill\ESkillType.cs" />
     <Compile Include="Assets\Scripts\Contents\Character\Party\UI\UIPartyEditPopup.cs" />
     <Compile Include="Assets\Scripts\Contents\Character\UnitController.cs" />
-    <Compile Include="Assets\Scripts\Contents\Character\Equipment\EquipmentStatCalculator.cs" />
     <Compile Include="Assets\Scripts\Contents\UI\Battle\UITurnOrderBar.cs" />
     <Compile Include="Assets\Scripts\Contents\Skill\UI\UISkillInfoPanel.cs" />
     <Compile Include="Assets\Scripts\Contents\UI\Battle\UIPartyMemberCard.cs" />

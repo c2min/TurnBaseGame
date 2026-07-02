@@ -52,6 +52,24 @@ public class Client : MonoSingleton<Client>
         UserInfo.HaveCharacters = list;
     }
 
+    /// <summary>equip/unequip 응답의 서버 전산출 CharacterInfo로 해당 캐릭 AllyInfo 스탯 갱신(장비 반영 최종값).</summary>
+    public void ApplyCharacterStats(CharacterInfo c)
+    {
+        if (c == null || UserInfo?.HaveCharacters == null) return;
+
+        string uid = c.CharacterId.ToString();
+        foreach (var ally in UserInfo.HaveCharacters)
+        {
+            if (ally.UnitId != uid) continue;
+            ally.Level       = c.Level;
+            ally.Hp          = c.Hp;
+            ally.Speed       = c.Speed;
+            ally.AttackPower = c.AttackPower;
+            ally.Defense     = c.Defense;
+            break;
+        }
+    }
+
     /// <summary>
     /// 계약 CharacterInfo(ID 중심·서버권위)를 로컬 AllyInfo로 변환.
     /// 이름/속성/인내력 등 표시 데이터는 와이어 미운반 → TemplateId로 콘텐츠(CharacterDatabase) 조회.

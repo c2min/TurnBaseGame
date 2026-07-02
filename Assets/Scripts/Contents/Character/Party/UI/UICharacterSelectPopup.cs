@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using SM.Contracts.TurnRPG;
 using SMDevLibrary.Managers;
+using SMDevLibrary.Network.Utility;
 using SMDevLibrary.UI.Popup;
 using UnityEngine;
 using UnityEngine.UI;
@@ -187,8 +189,14 @@ public class UICharacterSelectPopup : BasePopup
 
     private void OnEquipSlotClicked(EItemCategory category, ItemInstance item)
     {
-        // TODO: 슬롯별 장비 교체 팝업 연결
-        string itemName = item != null ? item.Data.ItemName : "비어있음";
-        Debug.Log($"[CharSelect] 슬롯 클릭: {category} / {itemName}");
+        // 장착된 슬롯 클릭 → 해제 요청(서버 권위: Affected 인벤 반영 + Character 최종스탯 재산출).
+        if (item != null)
+        {
+            UnityNetworkBridge.Instance.SendPacket(new EquipmentUnequipRequestPacket { EquipmentId = item.EquipmentId });
+            return;
+        }
+        // TODO(장착 트리거·후속): 빈 슬롯 → 인벤에서 카테고리 장비 선택 후 equip.req(charId, equipmentId).
+        //   아이템→캐릭 선택 플로우(대상 charId 스레딩) 필요 — UI 플로우 결정 대기.
+        UIManager.Instance.Show<UIInventoryPopup>(p => p.Open(category));
     }
 }

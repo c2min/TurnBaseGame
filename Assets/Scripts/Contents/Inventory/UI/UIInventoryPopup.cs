@@ -144,41 +144,9 @@ public class UIInventoryPopup : BasePopup
 
     private void OnSellClicked()
     {
+        // TODO: 판매 계약 미존재(turnrpg 와이어 없음) — 후속. 현재 셸.
         if (_selectedItem == null || _selectedItem.IsLocked) return;
-
-        UnityNetworkBridge.Instance.SendPacket(new RequestSellItem { InstanceId = _selectedItem.InstanceId });
-        _selectedItem = null;
-        _detailPanel.Hide();
-    }
-
-    public void OnSellResponse(ResponseSellItem res)
-    {
-        if (res.Code != ENetworkStatusCode.Success) return;
-
-        InventoryCache.Instance.Remove(res.InstanceId);
-        Refresh();
-    }
-
-    public void OnEquipResponse(ResponseEquipItem res)
-    {
-        if (res.Code != ENetworkStatusCode.Success) return;
-
-        var equipped = InventoryCache.Instance.Find(res.EquippedInstanceId);
-        if (equipped != null)
-            EquipmentCache.Instance.Equip(res.UnitId, equipped);
-
-        Refresh();
-    }
-
-    public void OnUnequipResponse(ResponseUnequipItem res)
-    {
-        if (res.Code != ENetworkStatusCode.Success) return;
-
-        var item = InventoryCache.Instance.Find(res.InstanceId);
-        if (item != null)
-            EquipmentCache.Instance.Unequip(res.UnitId, item.Data.Category);
-
-        Refresh();
+        Debug.Log($"<color=#00C853>[UI/UIInventoryPopup]</color> :> 판매 요청(계약 미존재): {_selectedItem.Data?.ItemName}");
     }
 
     private void OnEnhanceClicked(ItemInstance item)
