@@ -1,5 +1,4 @@
 using Cysharp.Threading.Tasks;
-using SMDevLibrary.Command;
 using SMDevLibrary.Network.Utility;
 using SM.Contracts.TurnRPG;
 using System;
@@ -9,14 +8,11 @@ using UnityEngine;
 
 public class BattleController : MonoBehaviour
 {
-    [SerializeField] private float _enemyTurnDelay = 1.5f;
-
     public event Action OnTileConfirmed;
 
     private BattleFieldView _battleFieldView;
     private bool _playerActed;
     private CancellationTokenSource _cts;
-    private readonly CommandSequencer _sequencer = new CommandSequencer();
 
     private string _firstActorId;
     private UniTaskCompletionSource<string> _nextActorTcs;
@@ -87,17 +83,20 @@ public class BattleController : MonoBehaviour
 
     // ── 턴 루프 ──────────────────────────────────────────────────────────────
 
+    // INFO :: 오프라인 전투 폐지(2026-07-02) — 전투는 서버 권위 온라인 단일 모델.
     private async UniTaskVoid RunTurnLoop(CancellationToken ct)
     {
-        if (UnityNetworkBridge.Instance.IsConnected)
-            await RunOnlineTurnLoop(ct);
-        else
-            await RunOfflineTurnLoop(ct);
+        if (!UnityNetworkBridge.Instance.IsConnected)
+        {
+            Debug.LogWarning("<color=#CE93D8>[Contents/BattleController]</color> :> 전투는 서버 연결 필요(오프라인 전투 폐지).");
+            return;
+        }
+
+        await RunOnlineTurnLoop(ct);
     }
 
     /// <summary>
-    /// 온라인: 서버가 매 턴 다음 행동 유닛을 결정합니다.
-    /// ResponseNextTurn이 도착할 때까지 대기 후 다음 턴을 시작합니다.
+    /// 서버가 매 턴 다음 행동 유닛을 결정. ResponseNextTurn 도착까지 대기 후 다음 턴.
     /// </summary>
     private async UniTask RunOnlineTurnLoop(CancellationToken ct)
     {
@@ -131,62 +130,6 @@ public class BattleController : MonoBehaviour
             currentActorId = await WaitForNextActorIdAsync(ct);
             if (currentActorId == null) break;
         }
-    }
-
-    /// <summary>
-    /// 오프라인: 로컬 TurnOrderCalculator가 매 턴 다음 행동 유닛을 결정합니다.
-    /// </summary>
-    private async UniTask RunOfflineTurnLoop(CancellationToken ct)
-    {
-        while (!ct.IsCancellationRequested)
-        {
-            await UniTask.WaitUntil(
-                () => UnitManager.Instance.EnemyCount > 0,
-                cancellationToken: ct);
-
-            var actor = UnitManager.Instance.GetNextActingUnit();
-            if (actor == null)
-            {
-                await UniTask.NextFrame(ct);
-                continue;
-            }
-
-            actor.OnTurnStart();
-
-            if (actor.Team == EUnitTeam.Ally)
-            {
-                _playerActed = false;
-                await UniTask.WaitUntil(() => _playerActed, cancellationToken: ct);
-            }
-            else
-            {
-                await RunEnemyTurn(actor, ct);
-            }
-
-            actor.OnTurnEnd();
-        }
-    }
-
-    // ── 적 턴 ────────────────────────────────────────────────────────────────
-
-    private async UniTask RunEnemyTurn(ITurnActor actor, CancellationToken ct)
-    {
-        // 스킬 유무와 무관하게 항상 딜레이를 적용합니다.
-        // 스킬이 없어도 즉시 리턴하면 RequestTurnEnd가 연속 발송되는 문제를 방지합니다.
-        await UniTask.WaitForSeconds(_enemyTurnDelay, cancellationToken: ct);
-
-        if (actor is not EnemyUnitController unit) return;
-
-        var skill = unit.SelectSkill();
-        if (skill == null) return;
-
-        var commands = new List<ICommand>
-        {
-            new PlayAnimationCommand(unit),
-            new ApplySkillCommand(unit, skill),
-        };
-
-        await _sequencer.RunAsync(commands, ct);
     }
 
     // ── 유틸 ─────────────────────────────────────────────────────────────────

@@ -6,20 +6,7 @@ public class AllySpawner : MonoBehaviour
     [SerializeField]
     private PlayerUnitController _allyPrefab;
 
-    /// <summary>(레거시/오프라인) 클라 편성 캐시로 아군 스폰.</summary>
-    public void SpawnAlly(AllySetInfo allySet)
-    {
-        var ally = Instantiate(_allyPrefab);
-        var characterData = Client.Instance.GameData?.Characters.Get(allySet.Ally.TemplateId);
-
-        var equipped = EquipmentCache.Instance.GetEquipped(allySet.Ally.UnitId);
-        var stats = EquipmentStatCalculator.Calculate(allySet.Ally, equipped);
-
-        ally.Initialize(stats, characterData);
-        UnitManager.Instance.AddUnit(ally, allySet.TileIndex);
-    }
-
-    /// <summary>(온라인) 서버 권위 스냅샷 유닛으로 아군 스폰. 스탯=서버, 비주얼=TemplateId→CharacterDatabase.</summary>
+    /// <summary>서버 권위 스냅샷 유닛으로 아군 스폰. 스탯=서버, 비주얼=TemplateId→CharacterDatabase.</summary>
     public void SpawnFromSnapshot(BattleUnitDto dto)
     {
         var ally = Instantiate(_allyPrefab);

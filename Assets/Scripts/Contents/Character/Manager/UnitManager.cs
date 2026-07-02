@@ -95,16 +95,6 @@ public class UnitManager : LazySingleton<UnitManager>
         NotifyOrderChanged();
     }
 
-    public ITurnActor GetNextActingUnit()
-    {
-        var unit = TurnOrder.GetNextUnit();
-        if (unit != null) OnTurnStart?.Invoke(unit);
-
-        NotifyOrderChanged();
-
-        return unit;
-    }
-
     /// <summary>서버가 지정한 unitId의 유닛을 찾아 턴 시작 이벤트를 발생시킵니다.</summary>
     public ITurnActor ActivateTurnFor(string unitId)
     {
