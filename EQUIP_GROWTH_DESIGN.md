@@ -15,11 +15,13 @@
 | **장비 강화** | **확정 강화**(성공률 100%·비용/재료만·실패 없음) |
 | **장착 슬롯·세트** | **현 모델 유지**(`EItemCategory`당 1슬롯 + 세트 효과) |
 
-## 1. 원칙 (ⓐ 기술 SoT — 세션 권고·사용자 확인)
+## 1. 원칙 (사용자 확정 2026-07-02 · turnrpg-server 협의 반영)
 
-- **권위 = 서버.** 강화/장착/레벨업/돌파 **판정·재화 차감·스탯 산출 = 서버**(위변조 방지·charter). 클라 = 요청 송신 + 서버 응답 표현. 현 `EquipmentCache`가 클라 권위처럼 동작하는 것 → **서버 응답 반영 캐시**로 격하.
-- **ID = int**(ADR-006 정본). 현 equip의 `string unitId`/`string ItemId`/`string InstanceId` → int 정합. (인스턴스 id는 서버 발급 long 가능 — bridge 확인.)
-- **데이터 vs 와이어**: 성장/강화 **곡선·비용·상한 = 데이터(plan/서버 Config)**. 클라는 표시만. 와이어 = 요청/응답 패킷(bridge).
+- **★ 스탯 산출 = 서버 전산출**(사용자 결정) — 서버가 `기본+레벨+돌파+장비+강화` **최종 스탯 산출**, **클라 = 산출값 표시만**. → ⚠️ **클라 `EquipmentStatCalculator`(클라 계산·`ComputedStats`) supersede** = 서버 `ComputedStats` 표시로 격하. `EquipmentCache` = 서버 응답 반영 캐시.
+- **권위 = 서버.** 강화/장착/레벨업/돌파 판정·재화 차감·검증 = 서버(charter·위변조 방지). 클라 = 요청 송신 + 서버 응답 표현.
+- **★ O7 지배 의존**(turnrpg-server 실측) — 세 기능 전부 **영속 per-character/per-account 상태** 의존 = **turnrpg per-game DB + 경제 표면(O7)이 공통 선행**. **사용자 결정: O7 착수 GO**(equip-growth = forcing function). ⓪ O7 기반 착지 전엔 서버 권위 기능 미제공 = **클라 구현도 그 후**.
+- **ID = int**(ADR-006). equip string→int 정합(신규 필드 자유·bridge 확인).
+- **데이터 vs 와이어**: 성장/강화 곡선·비용·상한·분배규칙·캡 = 데이터(plan/디자이너 `[디자인미정]`)·서버 검증. 클라 표시만. 와이어 = **turnrpg-server가 bridge에 정식 계약 REQUEST**(형상 확정 시)·클라는 **소비**(내가 발행 안 함).
 
 ---
 
@@ -129,10 +131,10 @@
 - 돌파 단계·단계별 레벨캡·돌파 재료
 - 슬롯 카테고리 집합·장착 조건·세트 효과 값
 
-## 7. 구현 순서 (디자인 확정 후)
+## 7. 구현 순서 (turnrpg-server 협의 확정·의존 기반)
 
-1. **구조 갈래 3건 확정**(사용자) → 데이터/계약 형상 고정.
-2. **@bridge 계약 REQUEST**(§5 표면) + **turnrpg-server 협의**(권위·재화·검증).
-3. 클라 구현: 캐시(성장상태) · 요청 송신 배선(equip/enhance/breakthrough) · 응답 핸들러 · 스탯 재계산 · UI(강화/돌파 팝업 — A-2 그룹2).
-4. 데이터(밸런스 값) = plan/디자이너 저작.
-5. Unity 배선(팝업 프리팹) = `EDITOR_WIRING_GUIDE.md` 등재.
+- **⓪ O7 기반 (서버·선행·모든 것의 토대)** — turnrpg per-game DB + `IIdentityStore` 소비 + per-character 영속(레벨/소유장비/exp) + 재화 표면. turnrpg-server 워크스트림(진척=status/HANDOFF 통지). **클라 구현은 이 기반 착지 + 계약 배포 후.**
+- **⒜ 장착**(영속만·경제 무의존) → **⒝ exp/레벨**(배틀 C 결과보상 + `BattleReward.exp`) → **⒞ 강화**(재화+재료=경제 표면 후미). 돌파=성장 포함.
+- **클라 몫(계약 배포 후)**: 성장상태 캐시(서버 스냅샷 소비) · 요청 송신 배선(equip/enhance/breakthrough) · 응답 핸들러 · **서버 산출 스탯 표시**(클라 계산 supersede) · UI(강화/돌파 팝업 = A-2 그룹2).
+- **계약** = turnrpg-server → bridge REQUEST(형상 확정 시)·클라 소비. **데이터(밸런스)** = plan/디자이너. **Unity 배선(팝업 프리팹)** = `EDITOR_WIRING_GUIDE.md` 등재.
+- **현 상태 = wait:@turnrpg-server(⓪ O7 기반 착지 + 계약).** 클라 선행 가능분 = UI 셸(팝업)은 계약 전이라도 셸 저작 가능하나, 실동작은 계약 의존 → O7 진척 보며 판단.
